@@ -70,7 +70,7 @@
     }
   },
   "bin": {
-    "pdf-password-remover": "./bin/pdf-password-remover.js"
+    "pdf-password-remover": "bin/pdf-password-remover.js"
   },
   "publishConfig": {
     "access": "public",
