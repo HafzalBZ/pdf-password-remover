@@ -4,6 +4,8 @@ Decrypt password-protected PDFs locally in the browser using QPDF compiled to We
 
 Created and maintained by [HafzalBZ](https://github.com/HafzalBZ). Source, generated WebAssembly artifacts, and reproducible build instructions are published at [github.com/HafzalBZ/pdf-password-remover](https://github.com/HafzalBZ/pdf-password-remover).
 
+Use the hosted browser tool at [hafzalbz.github.io/pdf-password-remover](https://hafzalbz.github.io/pdf-password-remover/). The selected PDF and password remain in your browser.
+
 ## Install
 
 ```sh

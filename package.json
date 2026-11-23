@@ -66,7 +66,7 @@
   "scripts": {
     "build:wasm": "./build.sh",
     "build": "./build-package.sh",
-    "check": "node --check src/index.js && node --check src/pdf-worker.js && sh -n build.sh build-package.sh prepare-package.sh serve.sh",
+    "check": "node --check src/index.js && node --check src/pdf-worker.js && node --check web/app.js && node --check web/pdf-worker.js && sh -n build.sh build-package.sh prepare-package.sh serve.sh",
     "prepack": "npm run check && ./prepare-package.sh"
   }
 }

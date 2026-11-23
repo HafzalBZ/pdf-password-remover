@@ -3,23 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Remove a known password from an authorized PDF locally in your browser. Files and passwords are never uploaded.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' blob:; script-src 'self' 'wasm-unsafe-eval'; style-src 'unsafe-inline'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>PDF Password Remover</title>
   <style>
-    body { font: 16px system-ui; max-width: 36rem; margin: 4rem auto; padding: 0 1rem; }
-    form { display: grid; gap: 1rem; }
-    input, button { font: inherit; padding: .7rem; }
-    #status { min-height: 1.5rem; }
+    :root { color-scheme: light dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 1.5rem; background: #0b1020; color: #eef2ff; }
+    main { width: min(100%, 34rem); padding: clamp(1.5rem, 5vw, 2.5rem); border: 1px solid #2a365c; border-radius: 1rem; background: #121a30; box-shadow: 0 1.5rem 4rem #0006; }
+    h1 { margin: 0 0 .6rem; font-size: clamp(2rem, 8vw, 3rem); letter-spacing: -.04em; }
+    p { color: #b8c2e3; line-height: 1.6; }
+    form { display: grid; gap: 1rem; margin-top: 1.75rem; }
+    label { display: grid; gap: .45rem; font-weight: 650; }
+    input, button { width: 100%; min-height: 3rem; padding: .75rem; border-radius: .65rem; border: 1px solid #3b4a77; font: inherit; }
+    input { background: #0b1020; color: inherit; }
+    button { border: 0; background: #7c9cff; color: #081127; font-weight: 800; cursor: pointer; }
+    button:hover { background: #99b1ff; }
+    button:disabled { cursor: wait; opacity: .65; }
+    #status { min-height: 1.5rem; color: #cbd5ff; }
+    .privacy { padding: .8rem 1rem; border-left: .2rem solid #74d7b5; background: #16283a; }
+    footer { margin-top: 1.5rem; font-size: .9rem; color: #94a0c6; }
+    a { color: #a9bcff; }
   </style>
 </head>
 <body>
-  <h1>PDF Password Remover</h1>
-  <p>The PDF and password stay inside this browser tab.</p>
-  <form>
-    <label>Encrypted PDF <input id="pdf" type="file" accept="application/pdf,.pdf" required></label>
-    <label>Password <input id="password" type="password" autocomplete="off" required></label>
-    <button type="submit">Decrypt and download</button>
-    <output id="status" aria-live="polite"></output>
-  </form>
+  <main>
+    <h1>PDF Password Remover</h1>
+    <p class="privacy"><strong>Private by design.</strong> Your PDF and password stay inside this browser tab and are never uploaded.</p>
+    <p>Choose a protected PDF and enter its known password. The unlocked copy downloads automatically.</p>
+    <form>
+      <label>Protected PDF <input id="pdf" type="file" accept="application/pdf,.pdf" required></label>
+      <label>PDF password <input id="password" type="password" autocomplete="off" required></label>
+      <button type="submit">Remove password and download</button>
+      <output id="status" aria-live="polite"></output>
+    </form>
+    <footer>Use only with documents you own or are authorized to modify. <a href="https://github.com/HafzalBZ/pdf-password-remover">View the open-source code</a>.</footer>
+  </main>
   <script type="module" src="./app.js"></script>
 </body>
 </html>

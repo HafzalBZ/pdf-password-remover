@@ -4,12 +4,23 @@ const fileInput = document.querySelector('#pdf');
 const passwordInput = document.querySelector('#password');
 const status = document.querySelector('#status');
 const submit = document.querySelector('button');
+const maxFileSize = 100 * 1024 * 1024;
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
   const file = fileInput.files?.[0];
 
   if (!file) return;
+
+  if (typeof Worker !== 'function' || typeof WebAssembly !== 'object') {
+    status.textContent = 'This browser does not support the required WebAssembly worker features.';
+    return;
+  }
+
+  if (file.size > maxFileSize) {
+    status.textContent = 'Please choose a PDF smaller than 100 MiB.';
+    return;
+  }
 
   submit.disabled = true;
   status.textContent = 'Decrypting locally…';
@@ -52,9 +63,17 @@ form.addEventListener('submit', async (event) => {
     status.textContent = 'Worker failed. Check the browser console.';
   };
 
-  const pdfBuffer = await file.arrayBuffer();
-  worker.postMessage(
-    { pdfBuffer, password: passwordInput.value },
-    [pdfBuffer],
-  );
+  try {
+    const pdfBuffer = await file.arrayBuffer();
+    worker.postMessage(
+      { pdfBuffer, password: passwordInput.value },
+      [pdfBuffer],
+    );
+  } catch {
+    clearTimeout(timeout);
+    worker.terminate();
+    passwordInput.value = '';
+    submit.disabled = false;
+    status.textContent = 'Unable to read the selected PDF.';
+  }
 });
