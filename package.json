@@ -1,6 +1,6 @@
 {
   "name": "pdf-password-remover",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Remove passwords from authorized PDFs locally in the browser using QPDF and WebAssembly.",
   "author": {
     "name": "HafzalBZ",

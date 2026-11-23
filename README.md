@@ -2,9 +2,17 @@
 
 Decrypt password-protected PDFs locally in the browser using QPDF compiled to WebAssembly. The PDF and password are processed in a disposable Web Worker and are not uploaded.
 
-Created and maintained by [HafzalBZ](https://github.com/HafzalBZ). Source, generated WebAssembly artifacts, and reproducible build instructions are published at [github.com/HafzalBZ/pdf-password-remover](https://github.com/HafzalBZ/pdf-password-remover).
+## Try the live demo first
 
-Use the hosted browser tool at [hafzalbz.github.io/pdf-password-remover](https://hafzalbz.github.io/pdf-password-remover/). The selected PDF and password remain in your browser.
+**[Open the PDF Password Remover demo →](https://hafzalbz.github.io/pdf-password-remover/)**
+
+Try the complete workflow in your browser before integrating the npm package.
+The selected PDF and password stay on your device: the demo has no upload or
+server-side decryption step.
+
+Created and maintained by [HafzalBZ](https://github.com/HafzalBZ). The
+[source code](https://github.com/HafzalBZ/pdf-password-remover), generated
+WebAssembly artifacts, and reproducible build instructions are public.
 
 ## Install
 
@@ -31,8 +39,9 @@ This package does not crack or recover unknown passwords. Only use it for docume
 
 ## Vite
 
-Add the package plugin once. It serves the worker and WASM during development
-and emits them into the production build automatically.
+Add the package plugin once. It serves `pdf-worker.js`, `pdf-decrypt.js`, and
+`pdf-decrypt.wasm` during development and emits the same version-matched files
+into the production build automatically.
 
 ```js
 import { defineConfig } from 'vite';
@@ -63,6 +72,14 @@ npx pdf-password-remover copy-assets public/vendor/pdf-password-remover
 The command is explicit: installing the package does not run a `postinstall`
 script or write into the consuming project.
 
+Then pass the deployed worker URL to `decryptPdf`:
+
+```js
+const bytes = await decryptPdf(file, password, {
+  workerUrl: '/vendor/pdf-password-remover/pdf-worker.js',
+});
+```
+
 ## Build from source
 
 Requirements: Docker and network access for the first build.
@@ -82,7 +99,7 @@ Issues and pull requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) be
 Official source archives and the Emscripten image are pinned by SHA-256. The
 build stops before compilation if any source hash does not match.
 
-## Run the development demo
+## Run the demo locally
 
 ```sh
 ./serve.sh
@@ -90,6 +107,9 @@ build stops before compilation if any source hash does not match.
 
 Open <http://localhost:8080>, choose a password-protected PDF, enter its
 password, and download the decrypted result.
+
+The hosted version is available at
+[hafzalbz.github.io/pdf-password-remover](https://hafzalbz.github.io/pdf-password-remover/).
 
 ## Browser and server requirements
 
