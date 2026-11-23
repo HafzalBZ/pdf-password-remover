@@ -2,7 +2,7 @@
 
 This is an independent personal open-source project. Do not add company names, company scopes, company repository URLs, analytics, telemetry, external PDF services, or runtime CDN dependencies.
 
-The project owner and package author is HafzalBZ (https://github.com/HafzalBZ). The canonical repository is https://github.com/HafzalBZ/pdf-decrypt-wasm.
+The project owner and package author is HafzalBZ (https://github.com/HafzalBZ). The canonical repository is https://github.com/HafzalBZ/pdf-password-remover.
 
 The package has one responsibility: accept PDF bytes and a user-supplied password in a browser, then return an unencrypted PDF. Keep QPDF behind the stable JavaScript API in `src/index.js`.
 

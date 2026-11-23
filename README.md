@@ -1,17 +1,17 @@
-# pdf-decrypt-wasm
+# PDF Password Remover
 
 Decrypt password-protected PDFs locally in the browser using QPDF compiled to WebAssembly. The PDF and password are processed in a disposable Web Worker and are not uploaded.
 
-Created and maintained by [HafzalBZ](https://github.com/HafzalBZ). Source, generated WebAssembly artifacts, and reproducible build instructions are published at [github.com/HafzalBZ/pdf-decrypt-wasm](https://github.com/HafzalBZ/pdf-decrypt-wasm).
+Created and maintained by [HafzalBZ](https://github.com/HafzalBZ). Source, generated WebAssembly artifacts, and reproducible build instructions are published at [github.com/HafzalBZ/pdf-password-remover](https://github.com/HafzalBZ/pdf-password-remover).
 
 ## Install
 
 ```sh
-npm install pdf-decrypt-wasm
+npm install pdf-password-remover
 ```
 
 ```js
-import { decryptPdf, PdfDecryptError } from 'pdf-decrypt-wasm';
+import { decryptPdf, PdfDecryptError } from 'pdf-password-remover';
 
 try {
   const bytes = await decryptPdf(file, password);

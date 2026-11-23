@@ -1,18 +1,18 @@
 {
-  "name": "pdf-decrypt-wasm",
+  "name": "pdf-password-remover",
   "version": "0.1.0",
-  "description": "Decrypt password-protected PDFs locally in the browser using QPDF and WebAssembly.",
+  "description": "Remove passwords from authorized PDFs locally in the browser using QPDF and WebAssembly.",
   "author": {
     "name": "HafzalBZ",
     "url": "https://github.com/HafzalBZ"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HafzalBZ/pdf-decrypt-wasm.git"
+    "url": "git+https://github.com/HafzalBZ/pdf-password-remover.git"
   },
-  "homepage": "https://github.com/HafzalBZ/pdf-decrypt-wasm#readme",
+  "homepage": "https://github.com/HafzalBZ/pdf-password-remover#readme",
   "bugs": {
-    "url": "https://github.com/HafzalBZ/pdf-decrypt-wasm/issues"
+    "url": "https://github.com/HafzalBZ/pdf-password-remover/issues"
   },
   "type": "module",
   "sideEffects": false,
@@ -21,6 +21,9 @@
     "pdf",
     "decrypt",
     "password",
+    "password-remover",
+    "pdf-password-remover",
+    "remove-pdf-password",
     "unlock",
     "webassembly",
     "wasm",

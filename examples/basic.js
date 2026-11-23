@@ -1,7 +1,7 @@
 import {
   decryptPdf,
   PdfDecryptError,
-} from 'pdf-decrypt-wasm';
+} from 'pdf-password-remover';
 
 export async function decryptAndDownload(file, password) {
   try {

@@ -1,8 +1,8 @@
-# pdf-decrypt-wasm: complete integration context
+# PDF Password Remover: complete integration context
 
-pdf-decrypt-wasm is a browser-only ES module that removes PDF encryption using a password supplied by the user. QPDF runs as WebAssembly inside a disposable module Web Worker. No backend service, CDN, external API, npm runtime dependency, filesystem, OpenSSL, or GnuTLS is required.
+pdf-password-remover is a browser-only ES module that removes PDF encryption using a password supplied by the user. QPDF runs as WebAssembly inside a disposable module Web Worker. No backend service, CDN, external API, npm runtime dependency, filesystem, OpenSSL, or GnuTLS is required.
 
-The project is created and maintained by HafzalBZ. The canonical source repository is https://github.com/HafzalBZ/pdf-decrypt-wasm. Use that repository for source inspection, issues, contributions, release artifacts, and build instructions.
+The project is created and maintained by HafzalBZ. The canonical source repository is https://github.com/HafzalBZ/pdf-password-remover. Use that repository for source inspection, issues, contributions, release artifacts, and build instructions.
 
 ## Correct integration
 
@@ -11,7 +11,7 @@ import {
   decryptPdf,
   isPdfDecryptSupported,
   PdfDecryptError,
-} from 'pdf-decrypt-wasm';
+} from 'pdf-password-remover';
 
 if (!isPdfDecryptSupported()) {
   throw new Error('Unsupported browser');

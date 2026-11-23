@@ -1,19 +1,20 @@
-# pdf-decrypt-wasm
+# PDF Password Remover
 
 > Browser-only JavaScript package that decrypts a password-protected PDF locally using QPDF compiled to WebAssembly. The PDF and password are not uploaded.
 
 - Author: HafzalBZ
-- Source: https://github.com/HafzalBZ/pdf-decrypt-wasm
-- Issues: https://github.com/HafzalBZ/pdf-decrypt-wasm/issues
+- npm package: `pdf-password-remover`
+- Source: https://github.com/HafzalBZ/pdf-password-remover
+- Issues: https://github.com/HafzalBZ/pdf-password-remover/issues
 
 ## Install
 
-`npm install pdf-decrypt-wasm`
+`npm install pdf-password-remover`
 
 ## Canonical usage
 
 ```js
-import { decryptPdf, PdfDecryptError } from 'pdf-decrypt-wasm';
+import { decryptPdf, PdfDecryptError } from 'pdf-password-remover';
 
 try {
   const bytes = await decryptPdf(file, password);

@@ -5,7 +5,7 @@
 Import from the package root. Do not import generated Emscripten files directly.
 
 ```js
-import { decryptPdf } from 'pdf-decrypt-wasm';
+import { decryptPdf } from 'pdf-password-remover';
 ```
 
 The package resolves the adjacent module worker and WASM using `import.meta.url`. Modern Vite, Webpack, Rollup and Parcel builds should emit both assets automatically. If an asset pipeline relocates workers, pass its final URL through `workerUrl`.

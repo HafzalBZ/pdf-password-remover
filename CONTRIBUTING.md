@@ -1,6 +1,6 @@
 # Contributing
 
-Contributions are welcome through issues and pull requests at https://github.com/HafzalBZ/pdf-decrypt-wasm.
+Contributions are welcome through issues and pull requests at https://github.com/HafzalBZ/pdf-password-remover.
 
 ## Development principles
 

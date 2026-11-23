@@ -3,8 +3,8 @@
 set -eu
 
 root_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
-image_name=local/pdf-decrypt-wasm-mvp
-container_name=pdf-decrypt-wasm-output
+image_name=local/pdf-password-remover
+container_name=pdf-password-remover-output
 
 docker build --target artifacts -t "$image_name" "$root_dir"
 docker create --name "$container_name" "$image_name" /bin/true >/dev/null
