@@ -1,6 +1,6 @@
 {
   "name": "pdf-password-remover",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Remove passwords from authorized PDFs locally in the browser using QPDF and WebAssembly.",
   "author": {
     "name": "HafzalBZ",
@@ -33,6 +33,7 @@
     "client-side"
   ],
   "files": [
+    "bin",
     "dist",
     "src",
     "Dockerfile",
@@ -41,6 +42,7 @@
     "prepare-package.sh",
     "AGENTS.md",
     "AUTHORS.md",
+    "CHANGELOG.md",
     "CONTRIBUTING.md",
     "docs",
     "examples",
@@ -57,7 +59,18 @@
       "import": "./dist/index.js"
     },
     "./worker": "./dist/pdf-worker.js",
-    "./pdf-decrypt.wasm": "./dist/pdf-decrypt.wasm"
+    "./pdf-decrypt.wasm": "./dist/pdf-decrypt.wasm",
+    "./node": {
+      "types": "./dist/node.d.ts",
+      "import": "./dist/node.js"
+    },
+    "./vite": {
+      "types": "./dist/vite.d.ts",
+      "import": "./dist/vite.js"
+    }
+  },
+  "bin": {
+    "pdf-password-remover": "./bin/pdf-password-remover.js"
   },
   "publishConfig": {
     "access": "public",
@@ -66,7 +79,8 @@
   "scripts": {
     "build:wasm": "./build.sh",
     "build": "./build-package.sh",
-    "check": "node --check src/index.js && node --check src/pdf-worker.js && node --check web/app.js && node --check web/pdf-worker.js && sh -n build.sh build-package.sh prepare-package.sh serve.sh",
+    "check": "node --check src/index.js && node --check src/node.js && node --check src/vite.js && node --check src/pdf-worker.js && node --check bin/pdf-password-remover.js && node --check web/app.js && node --check web/pdf-worker.js && sh -n build.sh build-package.sh prepare-package.sh serve.sh",
+    "test": "node --test tests/*.test.mjs",
     "prepack": "npm run check && ./prepare-package.sh"
   }
 }

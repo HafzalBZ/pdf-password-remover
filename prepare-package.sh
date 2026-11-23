@@ -7,6 +7,10 @@ root_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 for file in \
   dist/index.js \
   dist/index.d.ts \
+  dist/node.js \
+  dist/node.d.ts \
+  dist/vite.js \
+  dist/vite.d.ts \
   dist/pdf-worker.js \
   dist/pdf-decrypt.js \
   dist/pdf-decrypt.wasm \

@@ -64,7 +64,20 @@ The main module copies the input into a transferable ArrayBuffer, creates `pdf-w
 
 ## Deployment
 
-All files under `dist/` must remain available to the bundler. The worker and WASM URLs are based on `import.meta.url`, which is supported by modern Vite, Webpack, Rollup, Parcel, and similar asset pipelines. Do not rewrite the package to load WASM from an untrusted public CDN.
+For Vite, add `pdfPasswordRemoverPlugin()` from
+`pdf-password-remover/vite`. The plugin serves `pdf-worker.js`,
+`pdf-decrypt.js`, and `pdf-decrypt.wasm` during development and emits the same
+version-matched files during production builds. Pass
+`${import.meta.env.BASE_URL}vendor/pdf-password-remover/pdf-worker.js` as
+`workerUrl`.
+
+For other build systems, run
+`pdf-password-remover copy-assets <output-directory>` during the host build,
+or call `copyPdfPasswordRemoverAssets()` from `pdf-password-remover/node`.
+Keep the three assets together and pass the deployed worker URL to
+`decryptPdf`. The package deliberately has no `postinstall` script and does
+not write into a consuming project during installation. Do not load WASM from
+an untrusted public CDN.
 
 Serve WASM as `application/wasm`. A strict Content Security Policy normally needs `worker-src 'self'`, `connect-src 'self'`, and `script-src 'self' 'wasm-unsafe-eval'`. `wasm-unsafe-eval` permits WebAssembly compilation without enabling general JavaScript `unsafe-eval`.
 

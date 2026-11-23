@@ -29,6 +29,40 @@ Accepted inputs are `File`, `Blob`, `ArrayBuffer`, and typed-array views. The re
 
 This package does not crack or recover unknown passwords. Only use it for documents you own or are authorized to decrypt.
 
+## Vite
+
+Add the package plugin once. It serves the worker and WASM during development
+and emits them into the production build automatically.
+
+```js
+import { defineConfig } from 'vite';
+import { pdfPasswordRemoverPlugin } from 'pdf-password-remover/vite';
+
+export default defineConfig({
+  plugins: [pdfPasswordRemoverPlugin()],
+});
+```
+
+Use the matching same-origin worker URL when decrypting:
+
+```js
+await decryptPdf(file, password, {
+  workerUrl: `${import.meta.env.BASE_URL}vendor/pdf-password-remover/pdf-worker.js`,
+});
+```
+
+## Other build systems
+
+Copy the three runtime assets from the installed package as part of the host
+application's build:
+
+```sh
+npx pdf-password-remover copy-assets public/vendor/pdf-password-remover
+```
+
+The command is explicit: installing the package does not run a `postinstall`
+script or write into the consuming project.
+
 ## Build from source
 
 Requirements: Docker and network access for the first build.
@@ -71,6 +105,7 @@ No `SharedArrayBuffer`, WebAssembly threads, COOP, or COEP is required.
 - [API reference](docs/API.md)
 - [Integration guide](docs/INTEGRATION.md)
 - [Security model](docs/SECURITY.md)
+- [Changelog](CHANGELOG.md)
 - [LLM quick context](llms.txt)
 - [LLM complete context](llms-full.txt)
 
