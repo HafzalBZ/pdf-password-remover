@@ -8,13 +8,17 @@ root_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 mkdir -p "$root_dir/dist"
 cp "$root_dir/src/index.js" "$root_dir/dist/index.js"
 cp "$root_dir/src/index.d.ts" "$root_dir/dist/index.d.ts"
+cp "$root_dir/src/node.js" "$root_dir/dist/node.js"
+cp "$root_dir/src/node.d.ts" "$root_dir/dist/node.d.ts"
+cp "$root_dir/src/vite.js" "$root_dir/dist/vite.js"
+cp "$root_dir/src/vite.d.ts" "$root_dir/dist/vite.d.ts"
 cp "$root_dir/src/pdf-worker.js" "$root_dir/dist/pdf-worker.js"
 cp "$root_dir/web/pdf-decrypt.js" "$root_dir/dist/pdf-decrypt.js"
 cp "$root_dir/web/pdf-decrypt.wasm" "$root_dir/dist/pdf-decrypt.wasm"
 
 (
   cd "$root_dir/dist"
-  files="pdf-decrypt.js pdf-decrypt.wasm index.js index.d.ts pdf-worker.js"
+  files="pdf-decrypt.js pdf-decrypt.wasm index.js index.d.ts node.js node.d.ts vite.js vite.d.ts pdf-worker.js"
   if command -v sha256sum >/dev/null 2>&1; then
     sha256sum $files > SHA256SUMS
   else

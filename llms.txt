@@ -44,6 +44,12 @@ try {
 - Serve `.wasm` with `Content-Type: application/wasm`.
 - This decrypts with a password supplied by the user. It does not crack or recover passwords.
 - The output is an unencrypted copy of the PDF.
+- Vite: add `pdfPasswordRemoverPlugin()` from `pdf-password-remover/vite`,
+  then use the matching same-origin `workerUrl`.
+- Other build systems: run
+  `pdf-password-remover copy-assets <output-directory>` during the build.
+- The package has no `postinstall` script and never modifies a consumer unless
+  its explicit asset-copy command or Node helper is invoked.
 
 ## Documentation
 

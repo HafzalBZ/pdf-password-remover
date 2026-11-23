@@ -41,3 +41,35 @@ All expected failures reject with `PdfDecryptError`, whose `code` is stable acro
 | `UNSUPPORTED_BROWSER` | A required browser API is unavailable. |
 | `WASM_FAILURE` | Worker or WASM initialization failed. |
 | `PROCESSING_FAILED` | An otherwise unclassified decryption failure occurred. |
+
+## `pdf-password-remover/vite`
+
+`pdfPasswordRemoverPlugin(options?)` returns a Vite plugin that serves the
+worker, Emscripten bridge, and WASM file in development and emits them in
+production builds.
+
+```ts
+function pdfPasswordRemoverPlugin(options?: {
+  assetDirectory?: string;
+}): VitePlugin;
+```
+
+`assetDirectory` defaults to `vendor/pdf-password-remover` and must be a safe
+relative directory.
+
+## `pdf-password-remover/node`
+
+Build tools can copy the installed package's version-matched runtime assets
+programmatically:
+
+```ts
+function copyPdfPasswordRemoverAssets(
+  outputDirectory: string | URL,
+): Promise<void>;
+```
+
+The equivalent CLI is:
+
+```sh
+pdf-password-remover copy-assets <output-directory>
+```

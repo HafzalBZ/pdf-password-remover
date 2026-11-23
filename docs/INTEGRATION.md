@@ -1,14 +1,45 @@
 # Integration and deployment
 
-## Bundlers
+## Vite
 
-Import from the package root. Do not import generated Emscripten files directly.
+Use the package-owned plugin so Vite serves and emits all version-matched
+runtime assets:
+
+```js
+import { defineConfig } from 'vite';
+import { pdfPasswordRemoverPlugin } from 'pdf-password-remover/vite';
+
+export default defineConfig({
+  plugins: [pdfPasswordRemoverPlugin()],
+});
+```
 
 ```js
 import { decryptPdf } from 'pdf-password-remover';
+
+const bytes = await decryptPdf(file, password, {
+  workerUrl: `${import.meta.env.BASE_URL}vendor/pdf-password-remover/pdf-worker.js`,
+});
 ```
 
-The package resolves the adjacent module worker and WASM using `import.meta.url`. Modern Vite, Webpack, Rollup and Parcel builds should emit both assets automatically. If an asset pipeline relocates workers, pass its final URL through `workerUrl`.
+The plugin respects Vite's base path. Set `assetDirectory` on the plugin and
+use the same directory in `workerUrl` if the default conflicts with the host
+application.
+
+## Webpack, Rollup, Parcel, and static sites
+
+Copy the package runtime assets into the host application's public/static
+directory during its build:
+
+```sh
+npx pdf-password-remover copy-assets public/vendor/pdf-password-remover
+```
+
+Then pass the deployed worker URL through `workerUrl`. The worker loads the
+adjacent JavaScript bridge and WASM, so keep all three files together.
+
+The CLI deliberately does not run during `postinstall`; it only writes files
+when the consuming project explicitly invokes it.
 
 ## Required response headers
 
