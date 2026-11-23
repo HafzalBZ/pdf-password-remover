@@ -1,0 +1,69 @@
+{
+  "name": "pdf-decrypt-wasm",
+  "version": "0.1.0",
+  "description": "Decrypt password-protected PDFs locally in the browser using QPDF and WebAssembly.",
+  "author": {
+    "name": "HafzalBZ",
+    "url": "https://github.com/HafzalBZ"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HafzalBZ/pdf-decrypt-wasm.git"
+  },
+  "homepage": "https://github.com/HafzalBZ/pdf-decrypt-wasm#readme",
+  "bugs": {
+    "url": "https://github.com/HafzalBZ/pdf-decrypt-wasm/issues"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "license": "MIT",
+  "keywords": [
+    "pdf",
+    "decrypt",
+    "password",
+    "unlock",
+    "webassembly",
+    "wasm",
+    "qpdf",
+    "browser",
+    "privacy",
+    "client-side"
+  ],
+  "files": [
+    "dist",
+    "src",
+    "Dockerfile",
+    "build.sh",
+    "build-package.sh",
+    "prepare-package.sh",
+    "AGENTS.md",
+    "AUTHORS.md",
+    "CONTRIBUTING.md",
+    "docs",
+    "examples",
+    "README.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "llms.txt",
+    "llms-full.txt"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "browser": "./dist/index.js",
+      "import": "./dist/index.js"
+    },
+    "./worker": "./dist/pdf-worker.js",
+    "./pdf-decrypt.wasm": "./dist/pdf-decrypt.wasm"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build:wasm": "./build.sh",
+    "build": "./build-package.sh",
+    "check": "node --check src/index.js && node --check src/pdf-worker.js && sh -n build.sh build-package.sh prepare-package.sh serve.sh",
+    "prepack": "npm run check && ./prepare-package.sh"
+  }
+}

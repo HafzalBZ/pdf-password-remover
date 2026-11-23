@@ -1,0 +1,43 @@
+name: Build and verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # v4.2.2 — pin third-party actions to immutable commits.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+
+      - name: Check source
+        run: npm run check
+
+      - name: Build from source
+        run: npm run build
+
+      - name: Inspect package
+        run: npm pack --dry-run
+
+      - name: Verify generated artifact checksums
+        working-directory: dist
+        run: sha256sum -c SHA256SUMS
+
+      - name: Upload generated package artifacts
+        # v4.6.2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pdf-decrypt-wasm-dist
+          path: dist/
+          if-no-files-found: error

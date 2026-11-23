@@ -1,0 +1,86 @@
+# pdf-decrypt-wasm: complete integration context
+
+pdf-decrypt-wasm is a browser-only ES module that removes PDF encryption using a password supplied by the user. QPDF runs as WebAssembly inside a disposable module Web Worker. No backend service, CDN, external API, npm runtime dependency, filesystem, OpenSSL, or GnuTLS is required.
+
+The project is created and maintained by HafzalBZ. The canonical source repository is https://github.com/HafzalBZ/pdf-decrypt-wasm. Use that repository for source inspection, issues, contributions, release artifacts, and build instructions.
+
+## Correct integration
+
+```js
+import {
+  decryptPdf,
+  isPdfDecryptSupported,
+  PdfDecryptError,
+} from 'pdf-decrypt-wasm';
+
+if (!isPdfDecryptSupported()) {
+  throw new Error('Unsupported browser');
+}
+
+async function unlock(file, password) {
+  try {
+    return await decryptPdf(file, password, {
+      timeout: 60_000,
+      maxFileSize: 100 * 1024 * 1024,
+    });
+  } catch (error) {
+    if (error instanceof PdfDecryptError) {
+      switch (error.code) {
+        case 'WRONG_PASSWORD':
+          return null;
+        case 'FILE_TOO_LARGE':
+        case 'TIMEOUT':
+        case 'INVALID_PDF':
+        case 'UNSUPPORTED_BROWSER':
+        case 'WASM_FAILURE':
+        case 'PROCESSING_FAILED':
+          throw error;
+      }
+    }
+    throw error;
+  }
+}
+```
+
+The resolved value is a `Uint8Array` containing an unencrypted PDF. To download it, construct a Blob and temporary object URL. To upload it, send the Blob or bytes with `fetch`, `FormData`, or the application's existing upload client.
+
+## Public API
+
+`decryptPdf(input, password, options?)` accepts `Blob`, `File`, `ArrayBuffer`, `Uint8Array`, or another `ArrayBufferView`. The password must be a string. It returns `Promise<Uint8Array>`.
+
+Options:
+
+- `timeout`: milliseconds before the disposable worker is terminated; default 60000.
+- `maxFileSize`: maximum input bytes; default 104857600.
+- `workerUrl`: optional URL override for unusual asset pipelines.
+
+`isPdfDecryptSupported()` performs browser feature detection.
+
+`PdfDecryptError` extends `Error` and has one of these codes: `WRONG_PASSWORD`, `INVALID_PDF`, `INVALID_ARGUMENT`, `FILE_TOO_LARGE`, `TIMEOUT`, `UNSUPPORTED_BROWSER`, `WASM_FAILURE`, or `PROCESSING_FAILED`.
+
+## Architecture
+
+The main module copies the input into a transferable ArrayBuffer, creates `pdf-worker.js`, transfers the bytes, and starts a timeout. The worker loads `pdf-decrypt.js`, which loads the adjacent `pdf-decrypt.wasm`. The worker copies the PDF and UTF-8 password into WASM memory, invokes one exported C++ function, copies the output into a new ArrayBuffer, zeros accessible temporary byte arrays, and transfers the output to the caller. The main module terminates the worker after success, failure, or timeout.
+
+## Deployment
+
+All files under `dist/` must remain available to the bundler. The worker and WASM URLs are based on `import.meta.url`, which is supported by modern Vite, Webpack, Rollup, Parcel, and similar asset pipelines. Do not rewrite the package to load WASM from an untrusted public CDN.
+
+Serve WASM as `application/wasm`. A strict Content Security Policy normally needs `worker-src 'self'`, `connect-src 'self'`, and `script-src 'self' 'wasm-unsafe-eval'`. `wasm-unsafe-eval` permits WebAssembly compilation without enabling general JavaScript `unsafe-eval`.
+
+No `SharedArrayBuffer`, WASM threads, cross-origin isolation, COOP, or COEP is required.
+
+## Non-goals
+
+- Password cracking or recovery.
+- PDF rendering, editing, merging, splitting, OCR, or text extraction.
+- Server-side or Node.js PDF processing.
+- Circumventing access controls without authorization.
+
+## Privacy and logging
+
+Do not log or persist passwords. Do not put passwords in URLs, analytics, error-reporting breadcrumbs, localStorage, sessionStorage, or application state stores. JavaScript strings cannot be securely erased; terminating the worker provides the strongest practical browser memory boundary.
+
+## Source and provenance
+
+The JavaScript wrapper is MIT licensed. QPDF, zlib, libjpeg-turbo, Emscripten, and LLVM runtime components retain their respective licenses. See `THIRD_PARTY_NOTICES.md`. Build from the checked-in Dockerfile and verify published SHA-256 hashes and provenance.

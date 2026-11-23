@@ -1,0 +1,53 @@
+# pdf-decrypt-wasm
+
+> Browser-only JavaScript package that decrypts a password-protected PDF locally using QPDF compiled to WebAssembly. The PDF and password are not uploaded.
+
+- Author: HafzalBZ
+- Source: https://github.com/HafzalBZ/pdf-decrypt-wasm
+- Issues: https://github.com/HafzalBZ/pdf-decrypt-wasm/issues
+
+## Install
+
+`npm install pdf-decrypt-wasm`
+
+## Canonical usage
+
+```js
+import { decryptPdf, PdfDecryptError } from 'pdf-decrypt-wasm';
+
+try {
+  const bytes = await decryptPdf(file, password);
+  const blob = new Blob([bytes], { type: 'application/pdf' });
+} catch (error) {
+  if (error instanceof PdfDecryptError && error.code === 'WRONG_PASSWORD') {
+    // Ask the user to enter the password again.
+  }
+}
+```
+
+## API
+
+- `decryptPdf(input, password, options?): Promise<Uint8Array>`
+- `isPdfDecryptSupported(): boolean`
+- `PdfDecryptError` with a stable `code` property
+- Inputs: `File`, `Blob`, `ArrayBuffer`, or typed-array view
+- Options: `timeout`, `maxFileSize`, `workerUrl`
+- Default timeout: 60 seconds
+- Default maximum file size: 100 MiB
+
+## Important constraints
+
+- Browser only; do not use as a Node.js PDF library.
+- Requires WebAssembly and module workers.
+- Serve over HTTP or HTTPS, not `file://`.
+- Serve `.wasm` with `Content-Type: application/wasm`.
+- This decrypts with a password supplied by the user. It does not crack or recover passwords.
+- The output is an unencrypted copy of the PDF.
+
+## Documentation
+
+- `README.md`: installation and common examples
+- `docs/API.md`: complete API contract and error codes
+- `docs/INTEGRATION.md`: bundlers, CSP, deployment, and troubleshooting
+- `docs/SECURITY.md`: privacy and threat model
+- `llms-full.txt`: self-contained detailed context for coding assistants

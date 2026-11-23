@@ -1,0 +1,49 @@
+name: Bug report
+description: Report a reproducible decryption or integration problem.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not attach confidential PDFs or disclose real passwords.
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+    validations:
+      required: true
+  - type: dropdown
+    id: code
+    attributes:
+      label: Error code
+      options:
+        - WRONG_PASSWORD
+        - INVALID_PDF
+        - INVALID_ARGUMENT
+        - FILE_TOO_LARGE
+        - TIMEOUT
+        - UNSUPPORTED_BROWSER
+        - WASM_FAILURE
+        - PROCESSING_FAILED
+        - No structured error
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Use a synthetic PDF and a non-sensitive password if a fixture is necessary.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true

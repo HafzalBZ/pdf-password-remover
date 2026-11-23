@@ -1,0 +1,5 @@
+# Emscripten generates a blank line containing spaces near the module banner.
+dist/pdf-decrypt.js whitespace=-trailing-space
+web/pdf-decrypt.js whitespace=-trailing-space
+
+*.wasm binary
